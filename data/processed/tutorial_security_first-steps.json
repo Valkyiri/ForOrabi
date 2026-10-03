@@ -1,0 +1,151 @@
+{
+  "source": "tutorial_security_first-steps",
+  "url": "https://fastapi.tiangolo.com/tutorial/security/first-steps/",
+  "title": "Security - First Steps",
+  "chunks": [
+    {
+      "chunk_id": "942c6d95c9c0c29215e9dbc7597e5d1a",
+      "text": "Section: Security - First Steps\n\nLet's imagine that you have your backend API in some domain.\n\nAnd you have a frontend in another domain or in a different path of the same domain (or in a mobile application).\n\nAnd you want to have a way for the frontend to authenticate with the backend, using a username and password .\n\nWe can use OAuth2 to build that with FastAPI .\n\nBut let's save you the time of reading the full long specification just to find those little pieces of information you need.\n\nLet's use the tools provided by FastAPI to handle security.",
+      "source": "tutorial_security_first-steps",
+      "url": "https://fastapi.tiangolo.com/tutorial/security/first-steps/",
+      "title": "Security - First Steps",
+      "section": "Security - First Steps",
+      "document_type": "fastapi_documentation"
+    },
+    {
+      "chunk_id": "41d65f027edddf825a187d6a97edfe9d",
+      "text": "Section: Security - First Steps > How it looks\n\nLet's first just use the code and see how it works, and then we'll come back to understand what's happening.",
+      "source": "tutorial_security_first-steps",
+      "url": "https://fastapi.tiangolo.com/tutorial/security/first-steps/",
+      "title": "Security - First Steps",
+      "section": "Security - First Steps > How it looks",
+      "document_type": "fastapi_documentation"
+    },
+    {
+      "chunk_id": "e4ae659126f47d435f02cb240de2ba4c",
+      "text": "Section: Security - First Steps > Create main.py\n\nCopy the example in a file main.py :\n\n```\nfrom typing import Annotated\n\nfrom fastapi import Depends, FastAPI\nfrom fastapi.security import OAuth2PasswordBearer\n\napp = FastAPI()\n\noauth2_scheme = OAuth2PasswordBearer(tokenUrl=\"token\")\n\n\n@app.get(\"/items/\")\nasync def read_items(token: Annotated[str, Depends(oauth2_scheme)]):\n    return {\"token\": token}\n```\n\nTip\n\nPrefer to use the Annotated version if possible.\n\n```\nfrom fastapi import Depends, FastAPI\nfrom fastapi.security import OAuth2PasswordBearer\n\napp = FastAPI()\n\noauth2_scheme = OAuth2PasswordBearer(tokenUrl=\"token\")\n\n\n@app.get(\"/items/\")\nasync def read_items(token: str = Depends(oauth2_scheme)):\n    return {\"token\": token}\n```",
+      "source": "tutorial_security_first-steps",
+      "url": "https://fastapi.tiangolo.com/tutorial/security/first-steps/",
+      "title": "Security - First Steps",
+      "section": "Security - First Steps > Create main.py",
+      "document_type": "fastapi_documentation"
+    },
+    {
+      "chunk_id": "d3b1ebebf2e82eb16f12335db20d401c",
+      "text": "Section: Security - First Steps > Run it\n\nNote\n\nThe python-multipart package is automatically installed with FastAPI when you run the uv add \"fastapi[standard]\" command.\n\nHowever, if you use the uv add fastapi command, the python-multipart package is not included by default.\n\nTo install it manually, add it to your project with:\n\n```\n$ uv add python-multipart\n```\n\nThis is because OAuth2 uses \"form data\" for sending the username and password .\n\nRun the example with:\n\n```\n$ uv run fastapi dev\n\nINFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)\n```",
+      "source": "tutorial_security_first-steps",
+      "url": "https://fastapi.tiangolo.com/tutorial/security/first-steps/",
+      "title": "Security - First Steps",
+      "section": "Security - First Steps > Run it",
+      "document_type": "fastapi_documentation"
+    },
+    {
+      "chunk_id": "e18e93aabca74bcfb06f99b525c9a80d",
+      "text": "Section: Security - First Steps > Check it\n\nGo to the interactive docs at: http://127.0.0.1:8000/docs .\n\nYou will see something like this:\n\nAuthorize button!\n\nYou already have a shiny new \"Authorize\" button.\n\nAnd your path operation has a little lock in the top-right corner that you can click.\n\nAnd if you click it, you have a little authorization form to type a username and password (and other optional fields):\n\nNote\n\nIt doesn't matter what you type in the form, it won't work yet. But we'll get there.\n\nThis is of course not the frontend for the final users, but it's a great automatic tool to document interactively all your API.\n\nIt can be used by the frontend team (that can also be yourself).\n\nIt can be used by third party applications and systems.\n\nAnd it can also be used by yourself, to debug, check and test the same application.",
+      "source": "tutorial_security_first-steps",
+      "url": "https://fastapi.tiangolo.com/tutorial/security/first-steps/",
+      "title": "Security - First Steps",
+      "section": "Security - First Steps > Check it",
+      "document_type": "fastapi_documentation"
+    },
+    {
+      "chunk_id": "9bc9d0524e9c3f5362be115146b4de75",
+      "text": "Section: Security - First Steps > The password flow\n\nNow let's go back a bit and understand what all that is.\n\nThe password \"flow\" is one of the ways (\"flows\") defined in OAuth2, to handle security and authentication.\n\nOAuth2 was designed so that the backend or API could be independent of the server that authenticates the user.",
+      "source": "tutorial_security_first-steps",
+      "url": "https://fastapi.tiangolo.com/tutorial/security/first-steps/",
+      "title": "Security - First Steps",
+      "section": "Security - First Steps > The password flow",
+      "document_type": "fastapi_documentation"
+    },
+    {
+      "chunk_id": "15dddbe6418378500e42a5d7988f9eb1",
+      "text": "Section: Security - First Steps > The password flow\n\nOAuth2 was designed so that the backend or API could be independent of the server that authenticates the user.\n\nBut in this case, the same FastAPI application will handle the API and the authentication.",
+      "source": "tutorial_security_first-steps",
+      "url": "https://fastapi.tiangolo.com/tutorial/security/first-steps/",
+      "title": "Security - First Steps",
+      "section": "Security - First Steps > The password flow",
+      "document_type": "fastapi_documentation"
+    },
+    {
+      "chunk_id": "532f2889739316af164c3f2186c56ba5",
+      "text": "Section: Security - First Steps > The password flow\n\nBut in this case, the same FastAPI application will handle the API and the authentication.\n\nSo, let's review it from that simplified point of view:\n\n- The user types the username and password in the frontend, and hits Enter .\n- The frontend (running in the user's browser) sends that username and password to a specific URL in our API (declared with tokenUrl=\"token\" ).\n- The API checks that username and password , and responds with a \"token\" (we haven't implemented any of this yet). A \"token\" is just a string with some content that we can use later to verify this user. Normally, a token is set to expire after some time. So, the user will have to log in again at some point later. And if the token is stolen, the risk is less. It is not like a permanent key that will work forever (in most of the cases).\n- The frontend stores that token temporarily somewhere.\n- The user clicks in the frontend to go to another section of the frontend web app.\n- The frontend needs to fetch some more data from the API. But it needs authentication for that specific endpoint. So, to authenticate with our API, it sends a header Authorization with a value of Bearer plus the token. If the token contains foobar , the content of the Authorization header would be: Bearer foobar .",
+      "source": "tutorial_security_first-steps",
+      "url": "https://fastapi.tiangolo.com/tutorial/security/first-steps/",
+      "title": "Security - First Steps",
+      "section": "Security - First Steps > The password flow",
+      "document_type": "fastapi_documentation"
+    },
+    {
+      "chunk_id": "2666d2a043a1301d0a40a4622cc3f6ec",
+      "text": "Section: Security - First Steps > FastAPI 's OAuth2PasswordBearer\n\nFastAPI provides several tools, at different levels of abstraction, to implement these security features.\n\nIn this example we are going to use OAuth2 , with the Password flow, using a Bearer token. We do that using the OAuth2PasswordBearer class.\n\nNote\n\nA \"bearer\" token is not the only option.\n\nBut it's the best one for our use case.\n\nAnd it might be the best for most use cases, unless you are an OAuth2 expert and know exactly why there's another option that better suits your needs.",
+      "source": "tutorial_security_first-steps",
+      "url": "https://fastapi.tiangolo.com/tutorial/security/first-steps/",
+      "title": "Security - First Steps",
+      "section": "Security - First Steps > FastAPI 's OAuth2PasswordBearer",
+      "document_type": "fastapi_documentation"
+    },
+    {
+      "chunk_id": "f29f39a1bdeddbe0c6ced3c73de06120",
+      "text": "Section: Security - First Steps > FastAPI 's OAuth2PasswordBearer\n\nBut it's the best one for our use case.\n\nAnd it might be the best for most use cases, unless you are an OAuth2 expert and know exactly why there's another option that better suits your needs.\n\nIn that case, FastAPI also provides you with the tools to build it.\n\nWhen we create an instance of the OAuth2PasswordBearer class we pass in the tokenUrl parameter. This parameter contains the URL that the client (the frontend running in the user's browser) will use to send the username and password in order to get a token.\n\n```\nfrom typing import Annotated\n\nfrom fastapi import Depends, FastAPI\nfrom fastapi.security import OAuth2PasswordBearer\n\napp = FastAPI()\n\noauth2_scheme = OAuth2PasswordBearer(tokenUrl=\"token\")\n\n\n@app.get(\"/items/\")\nasync def read_items(token: Annotated[str, Depends(oauth2_scheme)]):\n    return {\"token\": token}\n```\n\nTip\n\nPrefer to use the Annotated version if possible.\n\n```\nfrom fastapi import Depends, FastAPI\nfrom fastapi.security import OAuth2PasswordBearer\n\napp = FastAPI()\n\noauth2_scheme = OAuth2PasswordBearer(tokenUrl=\"token\")\n\n\n@app.get(\"/items/\")\nasync def read_items(token: str = Depends(oauth2_scheme)):\n    return {\"token\": token}\n```",
+      "source": "tutorial_security_first-steps",
+      "url": "https://fastapi.tiangolo.com/tutorial/security/first-steps/",
+      "title": "Security - First Steps",
+      "section": "Security - First Steps > FastAPI 's OAuth2PasswordBearer",
+      "document_type": "fastapi_documentation"
+    },
+    {
+      "chunk_id": "fbfb3fb2ebb1ed4ddc90a7d2a15c5701",
+      "text": "Section: Security - First Steps > FastAPI 's OAuth2PasswordBearer\n\nTip\n\nHere tokenUrl=\"token\" refers to a relative URL token that we haven't created yet. As it's a relative URL, it's equivalent to ./token .\n\nBecause we are using a relative URL, if your API was located at https://example.com/ , then it would refer to https://example.com/token . But if your API was located at https://example.com/api/v1/ , then it would refer to https://example.com/api/v1/token .\n\nUsing a relative URL is important to make sure your application keeps working even in an advanced use case like Behind a Proxy .\n\nThis parameter doesn't create that endpoint / path operation , but declares that the URL /token will be the one that the client should use to get the token. That information is used in OpenAPI, and then in the interactive API documentation systems.\n\nWe will soon also create the actual path operation.",
+      "source": "tutorial_security_first-steps",
+      "url": "https://fastapi.tiangolo.com/tutorial/security/first-steps/",
+      "title": "Security - First Steps",
+      "section": "Security - First Steps > FastAPI 's OAuth2PasswordBearer",
+      "document_type": "fastapi_documentation"
+    },
+    {
+      "chunk_id": "54e2a8fe4e2fb63dd24ca2418396401f",
+      "text": "Section: Security - First Steps > FastAPI 's OAuth2PasswordBearer\n\nWe will soon also create the actual path operation.\n\nNote\n\nIf you are a very strict \"Pythonista\" you might dislike the style of the parameter name tokenUrl instead of token_url .\n\nThat's because it is using the same name as in the OpenAPI spec. So that if you need to investigate more about any of these security schemes you can just copy and paste it to find more information about it.\n\nThe oauth2_scheme variable is an instance of OAuth2PasswordBearer , but it is also a \"callable\".\n\nIt could be called as:\n\n```\noauth2_scheme(some, parameters)\n```\n\nSo, it can be used with Depends .",
+      "source": "tutorial_security_first-steps",
+      "url": "https://fastapi.tiangolo.com/tutorial/security/first-steps/",
+      "title": "Security - First Steps",
+      "section": "Security - First Steps > FastAPI 's OAuth2PasswordBearer",
+      "document_type": "fastapi_documentation"
+    },
+    {
+      "chunk_id": "41ae09b21d45e828e336453bea60f546",
+      "text": "Section: Security - First Steps > FastAPI 's OAuth2PasswordBearer > Use it\n\nNow you can pass that oauth2_scheme in a dependency with Depends .\n\n```\nfrom typing import Annotated\n\nfrom fastapi import Depends, FastAPI\nfrom fastapi.security import OAuth2PasswordBearer\n\napp = FastAPI()\n\noauth2_scheme = OAuth2PasswordBearer(tokenUrl=\"token\")\n\n\n@app.get(\"/items/\")\nasync def read_items(token: Annotated[str, Depends(oauth2_scheme)]):\n    return {\"token\": token}\n```\n\nTip\n\nPrefer to use the Annotated version if possible.\n\n```\nfrom fastapi import Depends, FastAPI\nfrom fastapi.security import OAuth2PasswordBearer\n\napp = FastAPI()\n\noauth2_scheme = OAuth2PasswordBearer(tokenUrl=\"token\")\n\n\n@app.get(\"/items/\")\nasync def read_items(token: str = Depends(oauth2_scheme)):\n    return {\"token\": token}\n```",
+      "source": "tutorial_security_first-steps",
+      "url": "https://fastapi.tiangolo.com/tutorial/security/first-steps/",
+      "title": "Security - First Steps",
+      "section": "Security - First Steps > FastAPI 's OAuth2PasswordBearer > Use it",
+      "document_type": "fastapi_documentation"
+    },
+    {
+      "chunk_id": "cbb1489fc1c09a0623c2685b6b90f122",
+      "text": "Section: Security - First Steps > FastAPI 's OAuth2PasswordBearer > Use it\n\nThis dependency will provide a str that is assigned to the parameter token of the path operation function .\n\nFastAPI will know that it can use this dependency to define a \"security scheme\" in the OpenAPI schema (and the automatic API docs).\n\nTechnical Details\n\nFastAPI will know that it can use the class OAuth2PasswordBearer (declared in a dependency) to define the security scheme in OpenAPI because it inherits from fastapi.security.oauth2.OAuth2 , which in turn inherits from fastapi.security.base.SecurityBase .\n\nAll the security utilities that integrate with OpenAPI (and the automatic API docs) inherit from SecurityBase , that's how FastAPI can know how to integrate them in OpenAPI.",
+      "source": "tutorial_security_first-steps",
+      "url": "https://fastapi.tiangolo.com/tutorial/security/first-steps/",
+      "title": "Security - First Steps",
+      "section": "Security - First Steps > FastAPI 's OAuth2PasswordBearer > Use it",
+      "document_type": "fastapi_documentation"
+    },
+    {
+      "chunk_id": "ffcb69e3bc32b2a5e38fde3231d05f56",
+      "text": "Section: Security - First Steps > What it does\n\nIt will go and look in the request for that Authorization header, check if the value is Bearer plus some token, and will return the token as a str .\n\nIf it doesn't see an Authorization header, or the value doesn't have a Bearer token, it will respond with a 401 status code error ( UNAUTHORIZED ) directly.\n\nYou don't even have to check if the token exists to return an error. You can be sure that if your function is executed, it will have a str in that token.\n\nYou can try it already in the interactive docs:\n\nWe are not verifying the validity of the token yet, but that's a start already.",
+      "source": "tutorial_security_first-steps",
+      "url": "https://fastapi.tiangolo.com/tutorial/security/first-steps/",
+      "title": "Security - First Steps",
+      "section": "Security - First Steps > What it does",
+      "document_type": "fastapi_documentation"
+    },
+    {
+      "chunk_id": "37c312bf009477e16b074541886956fe",
+      "text": "Section: Security - First Steps > Recap\n\nSo, in just 3 or 4 extra lines, you already have some primitive form of security.",
+      "source": "tutorial_security_first-steps",
+      "url": "https://fastapi.tiangolo.com/tutorial/security/first-steps/",
+      "title": "Security - First Steps",
+      "section": "Security - First Steps > Recap",
+      "document_type": "fastapi_documentation"
+    }
+  ]
+}
